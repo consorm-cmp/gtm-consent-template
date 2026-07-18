@@ -4,7 +4,7 @@
   "author": "Oriana Solutions Inc.",
   "versions": [
     {
-      "sha": "MAIN_COMMIT_SHA",
+      "sha": "247ba00a4982de5661745b515cd4afe6056261d1",
       "changeNotes": "Initial release of Consorm Consent Optimization template."
     }
   ]
