@@ -2,5 +2,8 @@ homepage: "https://consorm.ca"
 documentation: "https://github.com/consorm-cmp/gtm-consent-template/blob/main/README.md"
 versions:
   # Latest version
+  - sha: 3d7ba5130f23920fd8be95630aac99486a7bc93d
+    changeNotes: Add PERSONALIZATION category and configurable default consent state (Marketing / Analytics / Preferences).
+  # Older versions
   - sha: 57ebfa13bc0fffbcd0f040ba413600af7314d4a7
     changeNotes: Initial release of the Consorm Consent Optimization template. Bilingual EN/FR description and documentation, Google Consent Mode v2 defaults, hardened script injection.
