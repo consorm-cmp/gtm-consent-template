@@ -16,10 +16,10 @@ ___INFO___
   "displayName": "Consorm Consent Optimization",
   "categories": ["TAG_MANAGEMENT"],
   "brand": {
-    "id": "brand_dummy",
-    "displayName": ""
+    "id": "github.com_consorm-cmp",
+    "displayName": "Consorm"
   },
-  "description": "Official Consorm consent banner integration with native Google Consent Mode v2 support.",
+  "description": "Official Consorm CMP integration. Loads the Consorm consent banner and sets the Google Consent Mode v2 default state (all storage denied except security) before any other tag fires. Learn more at https://consorm.ca. — Intégration officielle de la CMP Consorm. Charge la bannière de consentement Consorm et définit l'état par défaut du mode de consentement Google v2 (tout refusé sauf sécurité) avant le déclenchement de toute autre balise. En savoir plus sur https://consorm.ca. Developed by Oriana Solutions (https://orianasolutions.ca).",
   "containerContexts": [
     "WEB"
   ]
@@ -32,8 +32,11 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "TEXT",
     "name": "siteId",
-    "displayName": "Your Consorm Site ID",
+    "displayName": "Consorm Site ID / Identifiant de site Consorm",
     "simpleValueType": true,
+    "help": "Your unique Site ID, provided in your Consorm dashboard (https://consorm.ca). — Votre identifiant de site unique, fourni dans votre tableau de bord Consorm (https://consorm.ca).",
+    "valueHint": "e.g. abc123",
+    "notSetText": "Please enter the Site ID provided in your Consorm dashboard. — Veuillez saisir l'identifiant de site fourni dans votre tableau de bord Consorm.",
     "valueValidators": [
       {
         "type": "NON_EMPTY"
@@ -48,12 +51,14 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const gtagSet = require('gtagSet');
 const setDefaultConsentState = require('setDefaultConsentState');
 const injectScript = require('injectScript');
+const queryPermission = require('queryPermission');
+const encodeUriComponent = require('encodeUriComponent');
 
 gtagSet('developer_id.dMWUyMT', true);
 
 const siteId = data.siteId;
 
-const scriptUrl = 'https://cdn-consorm.com/t/' + siteId + '/bootstrap.js';
+const scriptUrl = 'https://cdn-consorm.com/t/' + encodeUriComponent(siteId) + '/bootstrap.js';
 
 setDefaultConsentState({
   'ad_storage': 'denied',
@@ -66,7 +71,11 @@ setDefaultConsentState({
   'wait_for_update': 500
 });
 
-injectScript(scriptUrl, data.gtmOnSuccess, data.gtmOnFailure);
+if (queryPermission('inject_script', scriptUrl)) {
+  injectScript(scriptUrl, data.gtmOnSuccess, data.gtmOnFailure);
+} else {
+  data.gtmOnFailure();
+}
 
 
 ___WEB_PERMISSIONS___
