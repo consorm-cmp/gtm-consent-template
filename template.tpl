@@ -14,6 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Consorm Consent Optimization",
+  "categories": ["TAG_MANAGEMENT"],
   "brand": {
     "id": "brand_dummy",
     "displayName": ""
