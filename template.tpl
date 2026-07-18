@@ -14,12 +14,12 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Consorm Consent Optimization",
-  "categories": ["TAG_MANAGEMENT"],
+  "categories": ["TAG_MANAGEMENT", "PERSONALIZATION"],
   "brand": {
     "id": "github.com_consorm-cmp",
     "displayName": "Consorm"
   },
-  "description": "Official Consorm CMP integration. Loads the Consorm consent banner and sets the Google Consent Mode v2 default state (all storage denied except security) before any other tag fires. Learn more at https://consorm.ca. — Intégration officielle de la CMP Consorm. Charge la bannière de consentement Consorm et définit l'état par défaut du mode de consentement Google v2 (tout refusé sauf sécurité) avant le déclenchement de toute autre balise. En savoir plus sur https://consorm.ca. Developed by Oriana Solutions (https://orianasolutions.ca).",
+  "description": "Official Consorm CMP integration. Loads the Consorm consent banner and sets the Google Consent Mode v2 default state (denied by default, configurable per category) before any other tag fires. Learn more at https://consorm.ca. — Intégration officielle de la CMP Consorm. Charge la bannière de consentement Consorm et définit l'état par défaut du mode de consentement Google v2 (refusé par défaut, configurable par catégorie) avant le déclenchement de toute autre balise. En savoir plus sur https://consorm.ca. Developed by Oriana Solutions (https://orianasolutions.ca).",
   "containerContexts": [
     "WEB"
   ]
@@ -42,6 +42,51 @@ ___TEMPLATE_PARAMETERS___
         "type": "NON_EMPTY"
       }
     ]
+  },
+  {
+    "type": "GROUP",
+    "name": "defaultConsent",
+    "displayName": "Default Consent State / État de consentement par défaut",
+    "groupStyle": "ZIPPY_CLOSED",
+    "help": "Consent state applied before the visitor makes a choice in the banner. — État de consentement appliqué avant que le visiteur ne fasse un choix dans la bannière.",
+    "subParams": [
+      {
+        "type": "SELECT",
+        "name": "marketingDefaultState",
+        "displayName": "Marketing (ad_storage, ad_user_data, ad_personalization)",
+        "macrosInSelect": false,
+        "selectItems": [
+          { "value": "denied", "displayValue": "Denied / Refusé" },
+          { "value": "granted", "displayValue": "Granted / Accordé" }
+        ],
+        "simpleValueType": true,
+        "defaultValue": "denied"
+      },
+      {
+        "type": "SELECT",
+        "name": "analyticsDefaultState",
+        "displayName": "Analytics (analytics_storage)",
+        "macrosInSelect": false,
+        "selectItems": [
+          { "value": "denied", "displayValue": "Denied / Refusé" },
+          { "value": "granted", "displayValue": "Granted / Accordé" }
+        ],
+        "simpleValueType": true,
+        "defaultValue": "denied"
+      },
+      {
+        "type": "SELECT",
+        "name": "preferencesDefaultState",
+        "displayName": "Preferences (functionality_storage, personalization_storage)",
+        "macrosInSelect": false,
+        "selectItems": [
+          { "value": "denied", "displayValue": "Denied / Refusé" },
+          { "value": "granted", "displayValue": "Granted / Accordé" }
+        ],
+        "simpleValueType": true,
+        "defaultValue": "denied"
+      }
+    ]
   }
 ]
 
@@ -61,12 +106,12 @@ const siteId = data.siteId;
 const scriptUrl = 'https://cdn-consorm.com/t/' + encodeUriComponent(siteId) + '/bootstrap.js';
 
 setDefaultConsentState({
-  'ad_storage': 'denied',
-  'ad_user_data': 'denied',
-  'ad_personalization': 'denied',
-  'analytics_storage': 'denied',
-  'functionality_storage': 'denied',
-  'personalization_storage': 'denied',
+  'ad_storage': data.marketingDefaultState,
+  'ad_user_data': data.marketingDefaultState,
+  'ad_personalization': data.marketingDefaultState,
+  'analytics_storage': data.analyticsDefaultState,
+  'functionality_storage': data.preferencesDefaultState,
+  'personalization_storage': data.preferencesDefaultState,
   'security_storage': 'granted',
   'wait_for_update': 500
 });
