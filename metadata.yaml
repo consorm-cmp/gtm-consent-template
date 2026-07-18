@@ -1,11 +1,6 @@
-{
-  "homepage": "https://consorm.ca",
-  "documentation": "https://github.com/consorm-cmp/consorm/blob/main/README.md",
-  "author": "Oriana Solutions Inc.",
-  "versions": [
-    {
-      "sha": "11a7f890d188ca101be216c3db2483001bb7b30f",
-      "changeNotes": "Initial release of Consorm Consent Optimization template."
-    }
-  ]
-}
+homepage: "https://consorm.ca"
+documentation: "https://github.com/consorm-cmp/gtm-consent-template/blob/main/README.md"
+versions:
+  # Latest version
+  - sha: 57ebfa13bc0fffbcd0f040ba413600af7314d4a7
+    changeNotes: Initial release of the Consorm Consent Optimization template. Bilingual EN/FR description and documentation, Google Consent Mode v2 defaults, hardened script injection.
