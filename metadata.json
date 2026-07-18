@@ -1,0 +1,11 @@
+{
+  "homepage": "https://consorm.ca",
+  "documentation": "https://github.com/consorm-cmp/consorm/blob/main/README.md",
+  "author": "Oriana Solutions Inc.",
+  "versions": [
+    {
+      "sha": "MAIN_COMMIT_SHA",
+      "changeNotes": "Initial release of Consorm Consent Optimization template."
+    }
+  ]
+}
